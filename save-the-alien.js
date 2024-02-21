@@ -23,9 +23,6 @@ function spaceship(x, y) {
 }
 
 // Alien :)
-let a = 100;
-let b = 200;
-
 function alien(a, b) {
   strokeWeight(2);
   stroke(128, 128, 128);
@@ -41,13 +38,34 @@ function alien(a, b) {
   line(a - 10, b + 30, a + 10, b + 30);
 }
 
+//Background stars
+let starC = [];
+let starD = [];
+let starAlpha = [];
+
+for (i = 0; i < 100; i++) {
+  const c = Math.floor(Math.random() * width);
+  const d = Math.floor(Math.random() * height);
+  const alpha = Math.random();
+
+  starC.push(c);
+  starD.push(d);
+  starAlpha.push(alpha);
+}
+
 function draw() {
-  if (keyIsDown(38)) {
+  if (keyIsDown(38) && y > 100) {
     y = y - speed;
-  } else if (keyIsDown(40)) {
+  } else if (keyIsDown(40) && y < height - 140) {
     y = y + speed;
   }
-  background(0, 0, 0);
+  background(0);
+  strokeWeight(0);
+  for (let index in starC) {
+    fill(255, 255, 255);
+    ellipse(starC[index], starD[index], 2);
+  }
+
   spaceship(x, y);
   alien(width / 2, height - 100);
 }
