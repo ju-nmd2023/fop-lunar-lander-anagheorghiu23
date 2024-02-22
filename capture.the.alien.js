@@ -1,4 +1,8 @@
 let x = 300;
+let r1 = 0;
+let g1 = 0;
+let b1 = 0;
+
 function setup() {
   createCanvas(600, 600);
   frameRate(30);
@@ -137,13 +141,14 @@ function addcounter() {
 
 //Alien Spaceship
 
-function spaceship(x, y) {
+function spaceship(x, y, r1, g1, b1) {
   strokeWeight(1);
-  stroke(0, 255, 0);
+  stroke(r1, g1, b1);
   fill(128, 128, 128);
   ellipse(x, y, 100, 70);
   ellipse(x, y + 20, 200, 70);
-  fill(0, 255, 0);
+  stroke(r1, g1, b1);
+  fill(r1, g1, b1);
   ellipse(x, y + 20, 50, 20);
   quad(x - 25, y + 20, x + 25, y + 20, x + 100, height, x - 100, height);
   strokeWeight(2);
@@ -155,10 +160,10 @@ function spaceship(x, y) {
 }
 
 // Alien :)
-function alien(a, b, m) {
+function alien(a, b, m, r1, g1, b1) {
   strokeWeight(2);
   stroke(128, 128, 128);
-  fill(0, 255, 0);
+  fill(r1, g1, b1);
   ellipse(a, b, 20);
   ellipse(a - 3, b - 2, 1);
   ellipse(a + 3, b - 2, 1);
@@ -223,8 +228,8 @@ function draw() {
     if (y < height - 140) {
       y = y + speed;
     }
-    spaceship(x, y);
-    alien(width / 2, height - 100, 2, 1);
+    spaceship(x, y, 0, 255, 0);
+    alien(width / 2, height - 100, 2, 0, 255, 0);
 
     if (y > height - 200) {
       alien(width / 2, height - 100, 5);
@@ -263,7 +268,7 @@ function draw() {
         height / 2
       );
     } else {
-      fill(0, 255, 0);
+      fill(255, 0, 0);
       strokeWeight(0);
       textSize(width * titleSize);
       text("You've squashed the alien!", width / 2, height / 2.5);
@@ -273,6 +278,8 @@ function draw() {
         width / 2,
         height / 2
       );
+      spaceship(x, y, 255, 0, 0);
+      alien(width / 2, height - 100, 2, 255, 0, 0);
     }
   }
 }
