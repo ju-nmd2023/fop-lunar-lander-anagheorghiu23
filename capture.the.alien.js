@@ -1,22 +1,39 @@
+let x = 300;
+function setup() {
+  createCanvas(600, 600);
+  frameRate(30);
+  let x = width / 2;
+  textFont("Kode Mono");
+  textStyle(BOLD);
+
+  for (i = 0; i < 100; i++) {
+    const c = Math.floor(Math.random() * width);
+    const d = Math.floor(Math.random() * height);
+    const alpha = Math.random();
+
+    starC.push(c);
+    starD.push(d);
+    starAlpha.push(alpha);
+  }
+}
 let speed = 1;
-let x = width / 2;
 let y = 100;
+
 let buttonIsClicked = false;
 let GameStatus = false;
 let counter = 1;
 let gameIsOver = false;
-let titleSize = 0.07;
-let subSize = 0.03;
+let titleSize = 0.06;
+let subSize = 0.025;
 let buttonSize = 0.04;
-textAlign(CENTER, CENTER);
 
 function button(e, f, g, h) {
   noFill();
   strokeWeight(4);
   stroke(0, 255, 0);
-
   rect(e, f, g, h);
   fill(0, 255, 0);
+  textAlign(CENTER, CENTER);
   strokeWeight(0);
   textSize(width * buttonSize);
   text("Play", e + g / 2, f + h / 2);
@@ -28,6 +45,7 @@ function tryagain(j, k, l, p) {
   strokeWeight(4);
   stroke(0, 255, 0);
   rect(j, k, l, p);
+  textAlign(CENTER, CENTER);
   fill(0, 255, 0);
   strokeWeight(0);
   textSize(width * buttonSize);
@@ -41,6 +59,7 @@ function MainMenu(j, k, l, p) {
   rect(j, k, l, p);
   fill(0, 255, 0);
   strokeWeight(0);
+  textAlign(CENTER, CENTER);
   textSize(width * buttonSize);
   text("Main Menu", j + l / 2, k + p / 2);
 }
@@ -48,10 +67,10 @@ function MainMenu(j, k, l, p) {
 function mousePressed() {
   if (!GameStatus) {
     if (
-      mouseX > width / 3.5 &&
-      mouseX < width / 3.5 + 200 &&
-      mouseY > height - 225 &&
-      mouseY < height - 225 + 50
+      mouseX > width / 2.8 &&
+      mouseX < width / 2.8 + 200 &&
+      mouseY > height - 300 &&
+      mouseY < height - 300 + 50
     ) {
       buttonIsClicked = true;
       GameStatus = true;
@@ -74,10 +93,10 @@ function mousePressed() {
 
 function mousePressedRetry() {
   if (
-    mouseX > width / 5 &&
-    mouseX < width / 5 + 90 &&
-    mouseY > height / 1.7 &&
-    mouseY < height / 1.7 + 60
+    mouseX > width / 4 &&
+    mouseX < width / 4 + 90 &&
+    mouseY > height / 1.8 &&
+    mouseY < height / 1.8 + 60
   ) {
     if (gameIsOver) {
       buttonIsClicked = false;
@@ -96,9 +115,9 @@ function mousePressedRetry() {
 function mousePressedMainMenu() {
   if (
     mouseX > width / 2 &&
-    mouseX < width / 2 + 130 &&
-    mouseY > height / 1.7 &&
-    mouseY < height / 1.7 + 60
+    mouseX < width / 2 + 170 &&
+    mouseY > height / 1.8 &&
+    mouseY < height / 1.8 + 60
   ) {
     if (gameIsOver) {
       buttonIsClicked = false;
@@ -155,20 +174,10 @@ let starC = [];
 let starD = [];
 let starAlpha = [];
 
-for (i = 0; i < 100; i++) {
-  const c = Math.floor(Math.random() * width);
-  const d = Math.floor(Math.random() * height);
-  const alpha = Math.random();
-
-  starC.push(c);
-  starD.push(d);
-  starAlpha.push(alpha);
-}
-
 function draw() {
   background(0);
   strokeWeight(0);
-  fill(255, 255, 255);
+  fill(246, 241, 213);
   rect(0, height - 100, width, 100);
   strokeWeight(0);
 
@@ -178,13 +187,13 @@ function draw() {
   }
   strokeWeight(0);
 
-  fill(255, 255, 255);
+  fill(246, 241, 213);
   rect(0, height - 55, width, 55);
   strokeWeight(3);
   stroke(128, 128, 128);
   ellipse(0, height - 100, 150, 20);
   ellipse(150, height - 80, 70, 20);
-  ellipse(60, height - 40, 100, 20);
+  ellipse(60, height - 30, 100, 20);
   ellipse(width, height - 100, 100, 20);
   ellipse(width - 90, height - 75, 50, 15);
   ellipse(width - 150, height - 40, 100, 20);
@@ -196,7 +205,7 @@ function draw() {
     strokeWeight(0);
     textSize(width * titleSize);
     text("Capture the Alien", width / 2, height / 2.5);
-    button(width / 3.5, height - 225, 200, 50);
+    button(width / 2.8, height - 300, 200, 50);
   } else {
     GameStatus = true;
     setInterval(addcounter, 1000);
@@ -225,20 +234,21 @@ function draw() {
     //Background over the spaceship
 
     push();
-    fill(255, 255, 255);
+    fill(246, 241, 213);
     strokeWeight(0);
     rect(0, height - 55, width, 200);
     pop();
-    fill(255, 255, 255);
-    ellipse(60, height - 40, 100, 20);
+    strokeWeight(3);
+    fill(246, 241, 213);
+    ellipse(60, height - 30, 100, 20);
     ellipse(width, height - 100, 100, 20);
     ellipse(width - 150, height - 40, 100, 20);
   }
 
   if (gameIsOver === true && GameStatus === true) {
     textAlign(CENTER, CENTER);
-    tryagain(width / 5, height / 1.7, 90, 60);
-    MainMenu(width / 2, height / 1.7, 130, 60);
+    tryagain(width / 4, height / 1.8, 90, 60);
+    MainMenu(width / 2, height / 1.8, 170, 60);
     if (speed < 3) {
       fill(0, 255, 0);
       strokeWeight(0);
