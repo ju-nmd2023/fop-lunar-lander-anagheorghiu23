@@ -2,7 +2,13 @@ let speed = 1;
 let x = width / 2;
 let y = 100;
 let buttonIsClicked = false;
+let GameStatus = false;
 let counter = 1;
+let gameIsOver = false;
+let titleSize = 0.07;
+let subSize = 0.03;
+let buttonSize = 0.04;
+textAlign(CENTER, CENTER);
 
 function button(e, f, g, h) {
   noFill();
@@ -12,22 +18,96 @@ function button(e, f, g, h) {
   rect(e, f, g, h);
   fill(0, 255, 0);
   strokeWeight(0);
-  textSize(20);
-  text("Play", e + g / 2 - 20, f + h / 2 + 5);
+  textSize(width * buttonSize);
+  text("Play", e + g / 2, f + h / 2);
+}
+// used some lines from the button tutorial
+
+function tryagain(j, k, l, p) {
+  noFill();
+  strokeWeight(4);
+  stroke(0, 255, 0);
+  rect(j, k, l, p);
+  fill(0, 255, 0);
+  strokeWeight(0);
+  textSize(width * buttonSize);
+  text("Retry", j + l / 2, k + p / 2);
+}
+
+function MainMenu(j, k, l, p) {
+  noFill();
+  strokeWeight(4);
+  stroke(0, 255, 0);
+  rect(j, k, l, p);
+  fill(0, 255, 0);
+  strokeWeight(0);
+  textSize(width * buttonSize);
+  text("Main Menu", j + l / 2, k + p / 2);
 }
 
 function mousePressed() {
-  if (
-    mouseX > width / 3 &&
-    mouseX < width / 3 + 200 &&
-    mouseY > height - 225 &&
-    mouseY < height - 225 + 50
-  ) {
-    buttonIsClicked = true;
-    GameStatus = true;
+  if (!GameStatus) {
+    if (
+      mouseX > width / 3.5 &&
+      mouseX < width / 3.5 + 200 &&
+      mouseY > height - 225 &&
+      mouseY < height - 225 + 50
+    ) {
+      buttonIsClicked = true;
+      GameStatus = true;
+      counter = 1;
+      gameIsOver = false;
+      speed = 1;
+      y = 100;
+    } else {
+      buttonIsClicked = false;
+      GameStatus = false;
+    }
   } else {
-    buttonIsClicked = false;
-    GameStatus = false;
+    if (gameIsOver === true) {
+      mousePressedRetry();
+      mousePressedMainMenu();
+    }
+  }
+}
+// used some lines from the button tutorial
+
+function mousePressedRetry() {
+  if (
+    mouseX > width / 5 &&
+    mouseX < width / 5 + 90 &&
+    mouseY > height / 1.7 &&
+    mouseY < height / 1.7 + 60
+  ) {
+    if (gameIsOver) {
+      buttonIsClicked = false;
+      GameStatus = true;
+      counter = 1;
+      gameIsOver = false;
+      speed = 1;
+      y = 100;
+    } else {
+      buttonIsClicked = false;
+      GameStatus = false;
+    }
+  }
+}
+
+function mousePressedMainMenu() {
+  if (
+    mouseX > width / 2 &&
+    mouseX < width / 2 + 130 &&
+    mouseY > height / 1.7 &&
+    mouseY < height / 1.7 + 60
+  ) {
+    if (gameIsOver) {
+      buttonIsClicked = false;
+      GameStatus = false;
+      counter = 1;
+      gameIsOver = false;
+      speed = 1;
+      y = 100;
+    }
   }
 }
 
@@ -85,8 +165,6 @@ for (i = 0; i < 100; i++) {
   starAlpha.push(alpha);
 }
 
-let GameStatus = false;
-
 function draw() {
   background(0);
   strokeWeight(0);
@@ -112,18 +190,21 @@ function draw() {
   ellipse(width - 150, height - 40, 100, 20);
   //taken from the night sky tutorial
   if (GameStatus === false) {
+    gameIsOver = false;
+    textAlign(CENTER, CENTER);
     fill(0, 255, 0);
     strokeWeight(0);
-    textSize(30);
-    text("Rescue the Alien", width / 3.3, height / 3, [10, 2]);
-    button(width / 3, height - 225, 200, 50);
+    textSize(width * titleSize);
+    text("Capture the Alien", width / 2, height / 2.5);
+    button(width / 3.5, height - 225, 200, 50);
   } else {
+    GameStatus = true;
     setInterval(addcounter, 1000);
     if (counter > 0 && y < height - 140) {
       speed = speed + 0.1;
     }
 
-    if (keyIsDown(38) && y > 100) {
+    if (keyIsDown(38) && y > 100 && y < height - 140) {
       speed = 1;
       y = y - (speed + 1);
       counter = 0;
@@ -131,7 +212,6 @@ function draw() {
     if (y < height - 140) {
       y = y + speed;
     }
-    console.log(speed * 10);
     spaceship(x, y);
     alien(width / 2, height - 100, 2, 1);
 
@@ -139,6 +219,9 @@ function draw() {
       alien(width / 2, height - 100, 5);
     }
 
+    if (y >= height - 140) {
+      gameIsOver = true;
+    }
     //Background over the spaceship
 
     push();
@@ -147,11 +230,37 @@ function draw() {
     rect(0, height - 55, width, 200);
     pop();
     fill(255, 255, 255);
-    ellipse(0, height - 100, 150, 20);
-    ellipse(150, height - 80, 70, 20);
     ellipse(60, height - 40, 100, 20);
     ellipse(width, height - 100, 100, 20);
-    ellipse(width - 90, height - 75, 50, 15);
     ellipse(width - 150, height - 40, 100, 20);
+  }
+
+  if (gameIsOver === true && GameStatus === true) {
+    textAlign(CENTER, CENTER);
+    tryagain(width / 5, height / 1.7, 90, 60);
+    MainMenu(width / 2, height / 1.7, 130, 60);
+    if (speed < 3) {
+      fill(0, 255, 0);
+      strokeWeight(0);
+      textSize(width * titleSize);
+      text("You saved the alien!", width / 2, height / 2.5);
+      textSize(width * subSize);
+      text(
+        "But did it want to be saved? Maybe it ran away for a reason...",
+        width / 2,
+        height / 2
+      );
+    } else {
+      fill(0, 255, 0);
+      strokeWeight(0);
+      textSize(width * titleSize);
+      text("You've squashed the alien!", width / 2, height / 2.5);
+      textSize(width * subSize);
+      text(
+        "Maybe it's for the best, it ran away for a reason...",
+        width / 2,
+        height / 2
+      );
+    }
   }
 }
