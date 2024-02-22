@@ -6,6 +6,7 @@ function setup() {
   textFont("Kode Mono");
   textStyle(BOLD);
 
+  // the following 7 lines of code have been taken from the night sky tutorial
   for (i = 0; i < 100; i++) {
     const c = Math.floor(Math.random() * width);
     const d = Math.floor(Math.random() * height);
@@ -181,6 +182,7 @@ function draw() {
   rect(0, height - 100, width, 100);
   strokeWeight(0);
 
+  // the following for has been taken from the night sky tutorial
   for (let index in starC) {
     fill(255, 255, 255, starAlpha[index] * 255);
     ellipse(starC[index], starD[index], 2);
