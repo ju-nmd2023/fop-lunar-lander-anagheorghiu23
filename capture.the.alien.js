@@ -17,12 +17,12 @@ function setup() {
     starAlpha.push(alpha);
   }
 }
-let speed = 1;
-let y = 100;
 
+let speed = 1;
+let counter = 1;
+let y = 100;
 let buttonIsClicked = false;
 let GameStatus = false;
-let counter = 1;
 let gameIsOver = false;
 let titleSize = 0.06;
 let subSize = 0.025;
